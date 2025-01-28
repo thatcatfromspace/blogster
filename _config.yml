@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
+title: Dinesh's Blog
+subtitle: "A blog about software development, technology, and life."
+description: "Let's give blogging a try. I know, it's 2025 and I'm late to the party."
+keywords: "software development, technology, life"
+author: Dinesh Veluswamy
 language: en
-timezone: ''
+timezone: Asia/Kolkata
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

@@ -2,9 +2,9 @@ nav:
   Home: /
   About: /about/
   Writing: /posts/
-  Projects: http://github.com/sergodeeva
+  Projects: http://github.com/thatcatfromspace
 
-projects_url: http://github.com/sergodeeva
+projects_url: http://github.com/thatcatfromspace
 
 customize:
     gravatar:
@@ -19,17 +19,16 @@ customize:
       # eg. generate with http://realfavicongenerator.net/
       desktop:
         url: /images/favicon.ico
-        gravatar: false
+        gravatar: true
       android:
-        url: /images/favicon-192x192.png
+        url: /images/logo.png
         gravator: false
       apple:
-        url: /images/apple-touch-icon.png
+        url: /images/logo.png
         gravator: false
     social_links:
-        github: http://github.com/sergodeeva
-        facebook: /
-        linkedin: https://www.linkedin.com/in/natalyakosenko/
+        github: http://github.com/thatcatfromspace
+        linkedin: https://www.linkedin.com/in/dineshveluswamy
     show_all_posts: false
     post_count: 10
     highlight: pojoaque

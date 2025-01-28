@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Container A way to package application with all necessary dependencies and configuration Portable artifact, easily shared and moved around Makes development and deployment more efficient Live in conta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Very Informal Introduction to Docker">
+<meta property="og:url" content="http://example.com/2025/01/28/docker/index.html">
+<meta property="og:site_name" content="Dinesh&#39;s Blog">
+<meta property="og:description" content="Container A way to package application with all necessary dependencies and configuration Portable artifact, easily shared and moved around Makes development and deployment more efficient Live in conta">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/docker/filesystem.png">
+<meta property="og:image" content="http://example.com/images/docker/workflow.png">
+<meta property="og:image" content="http://example.com/images/docker/run-vs-compose.png">
+<meta property="og:image" content="http://example.com/images/docker/volume.png">
+<meta property="article:published_time" content="2025-01-28T11:26:48.384Z">
+<meta property="article:modified_time" content="2025-01-28T11:53:20.458Z">
+<meta property="article:author" content="Dinesh Veluswamy">
+<meta property="article:tag" content="software development, technology, life">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/docker/filesystem.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/logo.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+          
+        
+    
+    <!-- title -->
+    <title>A Very Informal Introduction to Docker</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/posts/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/thatcatfromspace">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/01/28/docker/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/01/28/docker/&text=A Very Informal Introduction to Docker"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/01/28/docker/&is_video=false&description=A Very Informal Introduction to Docker"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Very Informal Introduction to Docker&body=Check out this article: http://example.com/2025/01/28/docker/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/01/28/docker/&name=A Very Informal Introduction to Docker&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Container"><span class="toc-number">1.</span> <span class="toc-text">Container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Before-containers"><span class="toc-number">2.</span> <span class="toc-text">Before containers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After-containers"><span class="toc-number">3.</span> <span class="toc-text">After containers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-a-container"><span class="toc-number">4.</span> <span class="toc-text">What is a container?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-vs-VMs"><span class="toc-number">5.</span> <span class="toc-text">Docker vs. VMs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Container-vs-Image"><span class="toc-number">6.</span> <span class="toc-text">Container vs. Image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-commands"><span class="toc-number">7.</span> <span class="toc-text">Docker commands</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-workflow"><span class="toc-number">8.</span> <span class="toc-text">Docker workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Network"><span class="toc-number">9.</span> <span class="toc-text">Docker Network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">10.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile"><span class="toc-number">11.</span> <span class="toc-text">Dockerfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Further-learnings"><span class="toc-number">12.</span> <span class="toc-text">Further learnings</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        A Very Informal Introduction to Docker
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Dinesh's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2025-01-28T11:26:48.384Z" itemprop="datePublished">2025-01-28</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><ul>
+<li>A way to package application with all necessary dependencies and configuration</li>
+<li>Portable artifact, easily shared and moved around</li>
+<li>Makes development and deployment more efficient</li>
+<li>Live in <strong>container repositories</strong> - <a target="_blank" rel="noopener" href="https://hub.docker.com/">DockerHub</a> is a public repo</li>
+</ul>
+<h3 id="Before-containers"><a href="#Before-containers" class="headerlink" title="Before containers"></a>Before containers</h3><ul>
+<li>Installation process is different on each OS environment, which is a hassle for collaboration</li>
+<li>Lengthy documentation to install dependencies</li>
+</ul>
+<h3 id="After-containers"><a href="#After-containers" class="headerlink" title="After containers"></a>After containers</h3><ul>
+<li>Own isolated environment to run</li>
+<li>Contains are packaged with all needed configuration</li>
+<li>One command to install an app</li>
+<li>Even run same app with 2 different versions, with no conflict</li>
+<li>Only the Docker runtime has to be configured (one-time) on the server.</li>
+</ul>
+<h3 id="What-is-a-container"><a href="#What-is-a-container" class="headerlink" title="What is a container?"></a>What is a container?</h3><ul>
+<li>Technically a container is a layer of multiple images</li>
+<li>Base layer is a Linux image, usually <code>alpine</code> to keep the image size small</li>
+<li>Other application layers are stacked on top of it, based on requirements</li>
+<li>Public containers on Docker Hub can be pulled by using <code>docker pull</code></li>
+<li>In case of a change in any image (layer), only the changes would be downloaded - this is an advantage of containers having multiple layers</li>
+<li>List all running containers using <code>docker ps</code></li>
+</ul>
+<h3 id="Docker-vs-VMs"><a href="#Docker-vs-VMs" class="headerlink" title="Docker vs. VMs"></a>Docker vs. VMs</h3><ul>
+<li>Docker and VMs are both virtualization tools</li>
+<li>Docker, however, virtualizes only the applications layer of the OS</li>
+<li>VMs have their own OS kernel, meaning they’re larger and slower</li>
+</ul>
+<p><img src="/images/docker/filesystem.png" alt="Filesystem"></p>
+<h3 id="Container-vs-Image"><a href="#Container-vs-Image" class="headerlink" title="Container vs. Image"></a>Container vs. Image</h3><ul>
+<li>Container is a running environment for image</li>
+<li>Every container has its own port assigned</li>
+<li>An application can only connect to a <em>container</em>, not an <em>image</em></li>
+<li>Multiple versions of images can run in separate containers simultaneously, however, will run on the same <em>container</em> port</li>
+<li>Container ports are different from host ports, and if two containers with the same application are running, they need to be bound to different host ports.</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run &lt;container_name&gt; -p&lt;host_port&gt;:&lt;container_port&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-commands"><a href="#Docker-commands" class="headerlink" title="Docker commands"></a>Docker commands</h3><ul>
+<li>Additionally, containers can be run in detached mode (which is the case for most applications), by passing the <code>-d</code> flag. </li>
+<li><code>docker run = docker pull + docker start</code> (works for public Docker containers on Docker Hub)</li>
+<li><code>docker rm</code> removes a container, <code>-f</code> force deletes even if the container is active</li>
+<li><code>docker logs &lt;container_id&gt;</code> or <code>docker logs &lt;name&gt;</code> shows the logs</li>
+<li><code>docker run &lt;container&gt; --name my_container</code> creates a container with specified name, else a random string is used</li>
+<li><code>docker exec -it &lt;container&gt; &lt;command&gt;</code> executes the given command in the specified container (<code>it -&gt; interactive terminal</code>)</li>
+<li><code>docker run</code> creates a new container by taking an image as a parameter, <code>docker start</code> starts an existing container</li>
+<li>The <code>-e &lt;KEY=VALUE&gt;</code> flag is used to pass environment variables to the container</li>
+</ul>
+<h3 id="Docker-workflow"><a href="#Docker-workflow" class="headerlink" title="Docker workflow"></a>Docker workflow</h3><p><img src="/images/docker/workflow.png" alt="Workflow"></p>
+<h3 id="Docker-Network"><a href="#Docker-Network" class="headerlink" title="Docker Network"></a>Docker Network</h3><ul>
+<li>Containers inside the same network can communicate using just their container names</li>
+<li>Applications running outside the network can access the contains using <code>localhost:&lt;container_port&gt;</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create new network</span></span><br><span class="line">docker network create &lt;network_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># list existing containers</span></span><br><span class="line">docker network <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># specify target network when creating a container</span></span><br><span class="line">docker run &lt;container_name&gt; --net &lt;network_name&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>For example, a MongoDB and a Mongo Express container can run side by side allowing for easy contact between each other just using their container names</li>
+</ul>
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><ul>
+<li>Running multiple containers with <code>docker run</code> is a tedious task, especially in a network</li>
+<li>We write <code>.yaml</code> files to automate starting dockers and passing arguments on container startup</li>
+</ul>
+<p><img src="/images/docker/run-vs-compose.png" alt="Compose"></p>
+<ul>
+<li>Each entry under <code>services</code> maps to a container name, and <code>environment</code> contains environment variables</li>
+<li><code>ports</code> contains the host port - container port mapping</li>
+<li>Docker Compose creates its own network between the containers listed in the <code>.yaml</code>file</li>
+<li>Indentation in compose file <strong>matters</strong></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a container network from example.yaml</span></span><br><span class="line">docker-compose -f example.yaml up </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>When a container is restarted, all configuration is lost (no data persistence)</li>
+<li>In order to achieve data persistence, we use Docker Volumes</li>
+</ul>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
+<li>A <code>Dockerfile</code> is used to create our own Docker image</li>
+<li>Always start an image by basing it on a pre-existing image, like <code>node</code> or <code>postgres</code></li>
+<li>Optionally define environment variables, although recommendation is to store them in a compose file because it allows for changes without having to recreate the entire image</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> KEY VALUE</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>RUN</code> is used to run virtually any Linux command (within the container, not the environment)</li>
+<li><code>COPY</code> executes on the <strong>host machine</strong></li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="language-bash"> &lt;source_on_host&gt; &lt;destination_on_container&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>CMD</code> serves as an entry point to the application. There can only be one <code>CMD</code> command in a <code>Dockerfile</code> but multiple <code>RUN</code> commands</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;yarn&quot;</span>, <span class="string">&quot;start&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>FROM</code> specifies a pre-existing image which the current image will be built on top of</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t &lt;image_name&gt; . <span class="comment"># from current dir</span></span><br></pre></td></tr></table></figure>
+
+<p>Delete images using <code>docker rmi &lt;image_name&gt;</code></p>
+<p><img src="/images/docker/volume.png" alt="Volume"></p>
+<h3 id="Further-learnings"><a href="#Further-learnings" class="headerlink" title="Further learnings"></a>Further learnings</h3><ul>
+<li>Create an image of your app for running it on a container</li>
+<li><code>alpine</code> uses <code>apk</code> as the package manager, not <code>apt</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apk update &amp;&amp; apk add &lt;package_list&gt;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/posts/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/thatcatfromspace">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Container"><span class="toc-number">1.</span> <span class="toc-text">Container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Before-containers"><span class="toc-number">2.</span> <span class="toc-text">Before containers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After-containers"><span class="toc-number">3.</span> <span class="toc-text">After containers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-a-container"><span class="toc-number">4.</span> <span class="toc-text">What is a container?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-vs-VMs"><span class="toc-number">5.</span> <span class="toc-text">Docker vs. VMs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Container-vs-Image"><span class="toc-number">6.</span> <span class="toc-text">Container vs. Image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-commands"><span class="toc-number">7.</span> <span class="toc-text">Docker commands</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-workflow"><span class="toc-number">8.</span> <span class="toc-text">Docker workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Network"><span class="toc-number">9.</span> <span class="toc-text">Docker Network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">10.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile"><span class="toc-number">11.</span> <span class="toc-text">Dockerfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Further-learnings"><span class="toc-number">12.</span> <span class="toc-text">Further learnings</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/01/28/docker/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/01/28/docker/&text=A Very Informal Introduction to Docker"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/01/28/docker/&is_video=false&description=A Very Informal Introduction to Docker"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Very Informal Introduction to Docker&body=Check out this article: http://example.com/2025/01/28/docker/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/01/28/docker/&title=A Very Informal Introduction to Docker"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/01/28/docker/&name=A Very Informal Introduction to Docker&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2025 Dinesh Veluswamy
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/posts/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/thatcatfromspace">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-37473492-6', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
