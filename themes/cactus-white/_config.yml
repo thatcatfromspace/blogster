@@ -13,25 +13,25 @@ customize:
         enabled: true
         width: 50
         height: 50
-        url: /images/logo.png
-        gravatar: false
+        url: /images/favicon.ico
+        gravatar: true
     favicon: 
       # eg. generate with http://realfavicongenerator.net/
       desktop:
         url: /images/favicon.ico
-        gravatar: true
+        gravatar: false
       android:
         url: /images/logo.png
-        gravator: false
+        gravatar: false
       apple:
         url: /images/logo.png
-        gravator: false
+        gravatar: false
     social_links:
         github: http://github.com/thatcatfromspace
         linkedin: https://www.linkedin.com/in/dineshveluswamy
-    show_all_posts: false
+    show_all_posts: true
     post_count: 10
-    highlight: pojoaque
+    highlight: monokai
 
 # RSS
 rss: false
