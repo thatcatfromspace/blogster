@@ -1,5 +1,6 @@
 ---
 title: A Very Informal Introduction to Docker
+date: 2025-01-28
 ---
 
 ### Container

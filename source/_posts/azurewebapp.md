@@ -1,5 +1,6 @@
 ---
 title:  Hosting your webapp on Azure in 5 minutes
+date: 2025-06-07
 ---
 
 I was recently learning various Azure services for my internship and stumbled upon Azure App Service, a one-shop solution for hosting webapps.

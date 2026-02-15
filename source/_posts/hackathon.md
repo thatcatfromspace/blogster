@@ -1,5 +1,6 @@
 ---
 title: My First Ever 24 Hour Hackathon
+date: 2025-05-13
 ---
 
 I recently got to attend my first 24 hour long hackathon. And by recently, I mean in January. I had the opportunity to compete with team - Prem, Ajay and Mithun and we went head-first into the competition. We had spend the previous night working on frontend and backend boilerplates for a full-stack application that would come in handy given the expected quality of our product in 24 hours. We set a benchmark for ourselves and decided to hold ourselves to the standards we've held ourselves to for other projects.

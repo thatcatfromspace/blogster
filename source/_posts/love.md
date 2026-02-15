@@ -1,5 +1,6 @@
 ---
 title: A 20 Something Year Old's Take on Love
+date: 2025-01-28
 ---
 
 Love has always been a complicated concept for me. Especially romantic love. There was a point in time when I used to think that romantic love was the highest sort of love and all the other forms came second. This notion was only reinforced by my crazy, stupid love for Hollywood romcoms. Thanks to the 2020 lockdowns, I watched no less than 2 movies per night, for almost 6 months. 
