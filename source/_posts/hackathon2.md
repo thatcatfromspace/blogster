@@ -1,6 +1,6 @@
 ---
 title:  Our Second Attempt at a 24 Hour Hackathon
-date: 2025-06-07
+date: 2026-02-15
 ---
 
 Lo and behold it's already been a year since we had participated in Kanam '25. The second edition of the hackathon was back - and so were we, fresh after our semester of intenships. With new found confidence and industry knowledge we stepped into a turf with new faces, new event management team and with a fresh batch of ideas.
